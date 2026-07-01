@@ -1,0 +1,58 @@
+import type { TeamMember } from '@/types';
+
+export const teamMembers: TeamMember[] = [
+  {
+    id: 'ram-prasad-sharma',
+    name: 'Ram Prasad Sharma',
+    role: 'CEO & Principal Architect',
+    bio: "With over 25 years in architectural practice, Ram leads PACE with a vision for resilient, context-sensitive design across Nepal's diverse landscapes.",
+    initials: 'RS',
+    email: 'ram.sharma@paceconsultant.com.np',
+    linkedin: 'https://linkedin.com',
+  },
+  {
+    id: 'sita-adhikari',
+    name: 'Sita Adhikari',
+    role: 'Senior Structural Engineer',
+    bio: 'Sita specializes in seismic-resistant structural design and has overseen major residential and institutional projects throughout the Kathmandu Valley.',
+    initials: 'SA',
+    email: 'sita.adhikari@paceconsultant.com.np',
+    linkedin: 'https://linkedin.com',
+  },
+  {
+    id: 'bikash-thapa',
+    name: 'Bikash Thapa',
+    role: 'Project Manager',
+    bio: 'Bikash ensures projects stay on schedule and within budget, coordinating teams, contractors, and clients from planning through final handover.',
+    initials: 'BT',
+    email: 'bikash.thapa@paceconsultant.com.np',
+    linkedin: 'https://linkedin.com',
+  },
+  {
+    id: 'anita-karki',
+    name: 'Anita Karki',
+    role: 'Architectural Designer',
+    bio: 'Anita transforms client briefs into functional, aesthetically refined designs that comply with Nepal Building Code and local planning requirements.',
+    initials: 'AK',
+    email: 'anita.karki@paceconsultant.com.np',
+    linkedin: 'https://linkedin.com',
+  },
+  {
+    id: 'suresh-poudel',
+    name: 'Suresh Poudel',
+    role: 'Civil Engineer',
+    bio: 'Suresh brings deep expertise in site development, drainage design, and infrastructure works — particularly for projects in challenging terrain and remote districts.',
+    initials: 'SP',
+    email: 'suresh.poudel@paceconsultant.com.np',
+    linkedin: 'https://linkedin.com',
+  },
+  {
+    id: 'priya-maharjan',
+    name: 'Priya Maharjan',
+    role: 'Interior Design Consultant',
+    bio: 'Priya delivers thoughtful interior solutions for residential and commercial spaces, balancing modern aesthetics with practical layouts suited to Nepali lifestyles.',
+    initials: 'PM',
+    email: 'priya.maharjan@paceconsultant.com.np',
+    linkedin: 'https://linkedin.com',
+  },
+];

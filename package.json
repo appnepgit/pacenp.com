@@ -1,0 +1,13 @@
+{
+  "name": "pace-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PACE Consultant website — static site (root) + Next.js app (pace-consultant-nextjs)",
+  "scripts": {
+    "dev": "npm run dev --prefix pace-consultant-nextjs",
+    "build": "npm run build --prefix pace-consultant-nextjs",
+    "start": "npm run start --prefix pace-consultant-nextjs",
+    "lint": "npm run lint --prefix pace-consultant-nextjs",
+    "install:next": "npm install --prefix pace-consultant-nextjs"
+  }
+}
