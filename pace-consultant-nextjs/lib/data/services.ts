@@ -55,7 +55,7 @@ export const services: Service[] = [
     description:
       'Planning and study of energy generation and distribution systems with special emphasis on small and mini hydel sectors and village electrification solutions.',
     icon: 'tasks',
-    image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80',
+    image: '/images/energy-development.jpg',
   },
   {
     id: 'drinking-water-supply',
@@ -63,7 +63,7 @@ export const services: Service[] = [
     description:
       'Planning, design, distribution network analysis, and elevated tank design for rural drinking water supply systems and community water infrastructure.',
     icon: 'building',
-    image: 'https://images.unsplash.com/photo-1527018601619-a508a2be00cd?auto=format&fit=crop&w=600&q=80',
+    image: '/images/drinking-water-supply.jpg',
   },
   {
     id: 'highway-engineering',
@@ -71,7 +71,7 @@ export const services: Service[] = [
     description:
       'Survey, planning, and design services for highways, roads, bridges, culverts, pavement structures, and transportation infrastructure projects.',
     icon: 'hard-hat',
-    image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80',
+    image: '/images/highway-engineering.jpg',
   },
   {
     id: 'survey-engineering',
@@ -79,7 +79,7 @@ export const services: Service[] = [
     description:
       'Topographical surveys, route surveys, and engineering survey services required for planning, design, construction, and infrastructure development works.',
     icon: 'drafting',
-    image: 'https://images.unsplash.com/photo-1508193638397-1c4234db14d8?auto=format&fit=crop&w=600&q=80',
+    image: '/images/survey-engineering.jpg',
   },
   {
     id: 'environmental-studies',
@@ -111,6 +111,6 @@ export const services: Service[] = [
     description:
       'Social surveys, impact assessments, protection measures, resettlement action plans, social development plans, and safeguard planning services.',
     icon: 'interior',
-    image: 'https://images.unsplash.com/photo-1531206715517-5c0ba29d267a?auto=format&fit=crop&w=600&q=80',
+    image: '/images/social-safeguards.jpg',
   },
 ];
