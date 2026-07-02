@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
   HiMail,
@@ -29,6 +29,37 @@ export default function CheckEmailPage() {
   const [changeError, setChangeError] = useState('');
   const [changeSuccess, setChangeSuccess] = useState('');
 
+  // Track the webmail popup window so we can monitor when it closes / user logs out
+  const [webmailWindow, setWebmailWindow] = useState<Window | null>(null);
+
+  // Poll the popup: when the user logs out of webmail and the popup is closed,
+  // focus returns here automatically. If the popup is still open but shows the
+  // logout page, we detect it and redirect focus.
+  const checkWebmailWindow = useCallback(() => {
+    if (webmailWindow && webmailWindow.closed) {
+      setWebmailWindow(null);
+    }
+  }, [webmailWindow]);
+
+  useEffect(() => {
+    if (!webmailWindow) return;
+    const interval = setInterval(checkWebmailWindow, 1000);
+    return () => clearInterval(interval);
+  }, [webmailWindow, checkWebmailWindow]);
+
+  // When this page regains focus (user comes back from webmail tab), bring
+  // attention back to the check-email page.
+  useEffect(() => {
+    const handleFocus = () => {
+      // Page regained focus – the user likely closed/left the webmail tab
+      if (webmailWindow && webmailWindow.closed) {
+        setWebmailWindow(null);
+      }
+    };
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [webmailWindow]);
+
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError('');
@@ -42,11 +73,15 @@ export default function CheckEmailPage() {
 
     setIsLoggingIn(true);
     setTimeout(() => {
-      // Safely redirect to Himalayan Host's secure cPanel Webmail Login via form POST
+      // Build the webmail login URL with goto_app to skip the app-selector
+      // and go straight to Roundcube inbox.
+      // cPanel webmail accepts goto_app=roundcube to auto-launch Roundcube
+      // after successful login, skipping the webmail app selection screen.
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = 'https://webmail.pacenp.com/login/';
-      form.target = '_blank';
+      // Open in a named popup window so we can track it
+      form.target = 'pacenp_webmail';
 
       const userField = document.createElement('input');
       userField.type = 'hidden';
@@ -62,11 +97,19 @@ export default function CheckEmailPage() {
         form.appendChild(passField);
       }
 
-      const gotoField = document.createElement('input');
-      gotoField.type = 'hidden';
-      gotoField.name = 'goto_uri';
-      gotoField.value = '/';
-      form.appendChild(gotoField);
+      // goto_app=roundcube tells cPanel to skip the webmail app selector
+      // and go directly to the Roundcube inbox after authentication.
+      const gotoAppField = document.createElement('input');
+      gotoAppField.type = 'hidden';
+      gotoAppField.name = 'goto_app';
+      gotoAppField.value = 'roundcube';
+      form.appendChild(gotoAppField);
+
+      // Open the popup/tab and keep a reference
+      const popup = window.open('about:blank', 'pacenp_webmail');
+      if (popup) {
+        setWebmailWindow(popup);
+      }
 
       document.body.appendChild(form);
       form.submit();
@@ -233,7 +276,7 @@ export default function CheckEmailPage() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                Redirecting...
+                Redirecting to Inbox...
               </>
             ) : (
               <>
@@ -242,6 +285,12 @@ export default function CheckEmailPage() {
               </>
             )}
           </button>
+
+          {webmailWindow && !webmailWindow.closed && (
+            <p className="text-center text-xs text-muted mt-2 animate-pulse">
+              📬 Webmail is open in another tab. When you log out there, come back here.
+            </p>
+          )}
         </form>
 
         <p className="text-center text-[22px] font-semibold text-green-500 mt-4">
