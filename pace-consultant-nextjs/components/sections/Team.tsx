@@ -4,17 +4,11 @@ import Link from 'next/link';
 import { HiMail } from 'react-icons/hi';
 import { FaLinkedinIn } from 'react-icons/fa';
 import { teamMembers } from '@/lib/data/team';
-import { scrollToSection } from '@/lib/utils/helpers';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 
 export function Team() {
-  const handleContactClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    scrollToSection('contact', 80);
-  };
-
   return (
-    <section id="team" aria-labelledby="team-heading" className="scroll-mt-24 bg-gray-50 py-24">
+    <section aria-labelledby="team-heading" className="bg-gray-50 py-24">
       <div className="container-pace">
         <SectionHeader
           label="Our Team"
@@ -65,8 +59,7 @@ export function Team() {
             We&apos;re always looking for talented engineers.
           </p>
           <Link
-            href="/#contact"
-            onClick={handleContactClick}
+            href="/contact"
             className="inline-flex shrink-0 items-center justify-center rounded bg-secondary px-6 py-3 font-heading text-sm font-semibold text-white transition hover:bg-secondary-dark"
           >
             See Open Positions

@@ -21,6 +21,24 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [hash, setHash] = useState('');
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setHash(window.location.hash);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
+
+    handleHashChange();
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', handleHashChange);
+    };
+  }, [pathname]);
+
 
   /* Scroll effect: compact navbar with shadow */
   useEffect(() => {
@@ -61,10 +79,15 @@ export function Navbar() {
   }, [isHome]);
 
   const handleNavClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, sectionId?: string) => {
+    (e: React.MouseEvent<HTMLAnchorElement>, sectionId?: string, href?: string) => {
       if (isHome && sectionId) {
         e.preventDefault();
         scrollToSection(sectionId, NAVBAR_HEIGHT);
+        setIsMobileOpen(false);
+      } else if (href && href.startsWith('/contact')) {
+        setTimeout(() => {
+          window.dispatchEvent(new Event('hashchange'));
+        }, 0);
         setIsMobileOpen(false);
       }
     },
@@ -106,23 +129,53 @@ export function Navbar() {
         <nav className="hidden md:flex items-center justify-center flex-1" aria-label="Primary navigation">
           <ul className="flex items-center gap-1">
             {navLinks.map((link) => {
-              const isActive = (isHome && activeSection === link.sectionId) || pathname === link.href;
+              const [linkPath, linkHash] = link.href.split('#');
+              let isActive = false;
+              if (isHome) {
+                isActive = activeSection === link.sectionId;
+              } else {
+                if (pathname === linkPath) {
+                  if (linkHash) {
+                    isActive = hash === `#${linkHash}`;
+                  } else {
+                    isActive = !hash || hash === '#contact';
+                  }
+                }
+              }
+              const isContactLink = link.href.startsWith('/contact');
               return (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.sectionId)}
-                    className={cn(
-                      'relative block whitespace-nowrap px-3.5 py-2 font-heading text-base font-semibold transition-colors duration-300',
-                      isActive ? 'text-secondary' : 'text-primary hover:text-secondary',
-                      /* Underline animation */
-                      'after:absolute after:bottom-1 after:left-3.5 after:right-3.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-secondary after:transition-transform after:duration-300',
-                      'hover:after:scale-x-100',
-                      isActive && 'after:scale-x-100'
-                    )}
-                  >
-                    {link.label}
-                  </Link>
+                  {isContactLink ? (
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleNavClick(e, link.sectionId, link.href)}
+                      className={cn(
+                        'relative block whitespace-nowrap px-3.5 py-2 font-heading text-base font-semibold transition-colors duration-300',
+                        isActive ? 'text-secondary' : 'text-primary hover:text-secondary',
+                        /* Underline animation */
+                        'after:absolute after:bottom-1 after:left-3.5 after:right-3.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-secondary after:transition-transform after:duration-300',
+                        'hover:after:scale-x-100',
+                        isActive && 'after:scale-x-100'
+                      )}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      onClick={(e) => handleNavClick(e, link.sectionId, link.href)}
+                      className={cn(
+                        'relative block whitespace-nowrap px-3.5 py-2 font-heading text-base font-semibold transition-colors duration-300',
+                        isActive ? 'text-secondary' : 'text-primary hover:text-secondary',
+                        /* Underline animation */
+                        'after:absolute after:bottom-1 after:left-3.5 after:right-3.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-secondary after:transition-transform after:duration-300',
+                        'hover:after:scale-x-100',
+                        isActive && 'after:scale-x-100'
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               );
             })}
@@ -131,8 +184,8 @@ export function Navbar() {
 
         {/* Desktop CTA (Right) */}
         <Link
-          href="/#contact"
-          onClick={(e) => handleNavClick(e, 'contact')}
+          href="/contact"
+          onClick={() => setIsMobileOpen(false)}
           className="hidden md:inline-block rounded px-6 py-3 font-heading text-base font-bold text-primary-dark bg-secondary transition hover:bg-secondary-dark hover:scale-[1.02]"
         >
           Get a Quote
@@ -165,19 +218,45 @@ export function Navbar() {
           <nav className="py-2" aria-label="Mobile navigation">
             <ul className="flex flex-col">
               {navLinks.map((link) => {
-                const isActive = (isHome && activeSection === link.sectionId) || pathname === link.href;
+                const [linkPath, linkHash] = link.href.split('#');
+                let isActive = false;
+                if (isHome) {
+                  isActive = activeSection === link.sectionId;
+                } else {
+                  if (pathname === linkPath) {
+                    if (linkHash) {
+                      isActive = hash === `#${linkHash}`;
+                    } else {
+                      isActive = !hash || hash === '#contact';
+                    }
+                  }
+                }
+                const isContactLink = link.href.startsWith('/contact');
                 return (
                   <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      onClick={(e) => handleNavClick(e, link.sectionId)}
-                      className={cn(
-                        'block px-6 py-3 font-heading text-base font-semibold transition-colors duration-300',
-                        isActive ? 'text-secondary' : 'text-primary hover:text-secondary'
-                      )}
-                    >
-                      {link.label}
-                    </Link>
+                    {isContactLink ? (
+                      <a
+                        href={link.href}
+                        onClick={(e) => handleNavClick(e, link.sectionId, link.href)}
+                        className={cn(
+                          'block px-6 py-3 font-heading text-base font-semibold transition-colors duration-300',
+                          isActive ? 'text-secondary' : 'text-primary hover:text-secondary'
+                        )}
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        onClick={(e) => handleNavClick(e, link.sectionId, link.href)}
+                        className={cn(
+                          'block px-6 py-3 font-heading text-base font-semibold transition-colors duration-300',
+                          isActive ? 'text-secondary' : 'text-primary hover:text-secondary'
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 );
               })}
@@ -185,8 +264,8 @@ export function Navbar() {
           </nav>
 
           <Link
-            href="/#contact"
-            onClick={(e) => handleNavClick(e, 'contact')}
+            href="/contact"
+            onClick={() => setIsMobileOpen(false)}
             className="my-3 mx-6 block rounded px-6 py-3 text-center font-heading text-base font-bold text-primary-dark bg-secondary transition hover:bg-secondary-dark"
           >
             Get a Quote

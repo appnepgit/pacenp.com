@@ -26,7 +26,7 @@ export default function ProjectsPage() {
     : projects.filter((p) => p.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-32 pb-24">
+    <div className="min-h-screen bg-slate-50 pt-40 md:pt-48 pb-24">
       <div className="container-pace">
         {/* Back Link */}
         <div className="mb-8">

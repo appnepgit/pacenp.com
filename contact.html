@@ -51,17 +51,7 @@
            ============================================= -->
       <!-- We can copy the team section styles here -->
       
-      <!-- Tab Navigation -->
-      <div class="tabs-container container" style="margin-top: 30px; text-align: center;">
-        <div class="tabs-buttons" style="display: inline-flex; background: #f1f5f9; padding: 4px; border-radius: 12px; border: 1px solid #e2e8f0;">
-          <button id="tab-btn-team" style="border: none; outline: none; padding: 12px 30px; font-size: 16px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.3s; background: transparent; color: #1A3C5E;">
-            Our Team
-          </button>
-          <button id="tab-btn-contact" style="border: none; outline: none; padding: 12px 30px; font-size: 16px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.3s; background: transparent; color: #1A3C5E;">
-            Contact Form
-          </button>
-        </div>
-      </div>
+
 <section id="team-section" class="section">
         <div class="container card-grid three-up">
           
@@ -207,38 +197,25 @@
     <script src="assets/js/main.js"></script>
   
     <script>
-      const tabBtnTeam = document.getElementById('tab-btn-team');
-      const tabBtnContact = document.getElementById('tab-btn-contact');
       const teamSection = document.getElementById('team-section');
       const contactSection = document.getElementById('contact-section');
 
       function setActiveTab(tabName) {
+        const teamNav = document.querySelector('nav.site-nav a[href*="#team"]');
+        const contactNav = document.querySelector('nav.site-nav a[href="contact.html"]');
+
         if (tabName === 'team') {
           teamSection.style.display = 'block';
           contactSection.style.display = 'none';
           
-          tabBtnTeam.style.background = '#E8A020';
-          tabBtnTeam.style.color = 'white';
-          tabBtnTeam.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-          tabBtnTeam.style.transform = 'scale(1.05)';
-          
-          tabBtnContact.style.background = 'transparent';
-          tabBtnContact.style.color = '#1A3C5E';
-          tabBtnContact.style.boxShadow = 'none';
-          tabBtnContact.style.transform = 'scale(1)';
+          if (teamNav) teamNav.classList.add('active');
+          if (contactNav) contactNav.classList.remove('active');
         } else {
           teamSection.style.display = 'none';
           contactSection.style.display = 'block';
           
-          tabBtnContact.style.background = '#E8A020';
-          tabBtnContact.style.color = 'white';
-          tabBtnContact.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-          tabBtnContact.style.transform = 'scale(1.05)';
-          
-          tabBtnTeam.style.background = 'transparent';
-          tabBtnTeam.style.color = '#1A3C5E';
-          tabBtnTeam.style.boxShadow = 'none';
-          tabBtnTeam.style.transform = 'scale(1)';
+          if (teamNav) teamNav.classList.remove('active');
+          if (contactNav) contactNav.classList.add('active');
         }
       }
 
@@ -253,13 +230,6 @@
 
       window.addEventListener('hashchange', handleHashChange);
       handleHashChange(); // Run immediately
-
-      tabBtnTeam.addEventListener('click', () => {
-        window.location.hash = 'team';
-      });
-      tabBtnContact.addEventListener('click', () => {
-        window.location.hash = 'contact';
-      });
     </script>
 </body>
 </html>

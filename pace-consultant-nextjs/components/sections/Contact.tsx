@@ -37,7 +37,7 @@ export function Contact() {
   const { address, phone, email, social } = siteConfig;
 
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="scroll-mt-24 py-24">
+    <section aria-labelledby="contact-heading" className="py-24">
       <div className="container-pace">
         <SectionHeader
           label="Contact Us"

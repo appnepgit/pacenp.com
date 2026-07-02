@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { services } from '@/lib/data/services';
-import { scrollToSection } from '@/lib/utils/helpers';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import type { Service } from '@/types';
 
@@ -59,11 +58,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           {service.description}
         </p>
         <Link
-          href="/#contact"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection('contact', 80);
-          }}
+          href="/contact"
           className="mt-5 inline-flex items-center gap-1 font-heading text-sm font-semibold text-secondary transition-colors duration-300 hover:text-secondary-dark"
         >
           Learn More <span aria-hidden="true">→</span>
@@ -74,11 +69,6 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 }
 
 export function Services() {
-  const handleContactClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    scrollToSection('contact', 80);
-  };
-
   return (
     <section
       id="services"
@@ -102,8 +92,7 @@ export function Services() {
         <div className="mt-14 flex flex-col items-center justify-between gap-4 rounded-lg bg-primary px-8 py-8 text-center text-white md:flex-row md:text-left">
           <p className="font-heading text-lg font-semibold">Need a custom solution? Let&apos;s talk.</p>
           <Link
-            href="/#contact"
-            onClick={handleContactClick}
+            href="/contact"
             className="inline-flex shrink-0 items-center justify-center rounded bg-secondary px-6 py-3 font-heading text-sm font-semibold text-white transition hover:bg-secondary-dark"
           >
             Contact Us Today
