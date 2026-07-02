@@ -105,7 +105,6 @@ export function Hero() {
           </Link>
           <Link
             href={heroContent.ctaSecondary.href}
-            onClick={(e) => handleScrollTo(e, 'projects')}
             className="inline-flex min-w-[200px] items-center justify-center rounded border-2 border-white px-7 py-3.5 font-heading text-base font-bold text-white transition hover:bg-white/10 hover:-translate-y-0.5"
           >
             {heroContent.ctaSecondary.label}

@@ -32,9 +32,9 @@ export const navLinks: NavLink[] = [
   { href: '/#home', label: 'Home', sectionId: 'home' },
   { href: '/#about', label: 'About Us', sectionId: 'about' },
   { href: '/#services', label: 'Services', sectionId: 'services' },
-  { href: '/#projects', label: 'Projects', sectionId: 'projects' },
-  { href: '/#team', label: 'Our Team', sectionId: 'team' },
-  { href: '/#contact', label: 'Contact Us', sectionId: 'contact' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/contact#team', label: 'Our Team' },
+  { href: '/contact', label: 'Contact Us' },
 ];
 
 /** Hero floating stats bar */
@@ -52,5 +52,5 @@ export const heroContent = {
   subtitle:
     'Expert Architectural Design & Infrastructure Supervision — Trusted across Nepal for over 20 years',
   ctaPrimary: { label: 'Explore Our Services', href: '/#services' },
-  ctaSecondary: { label: 'View Our Projects', href: '/#projects' },
+  ctaSecondary: { label: 'View Our Projects', href: '/projects' },
 };

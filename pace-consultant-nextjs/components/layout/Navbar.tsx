@@ -30,37 +30,34 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* Intersection Observer — highlight active nav link on homepage */
+  /* Scroll Spy — highlight active nav link on homepage based on scroll position */
   useEffect(() => {
     if (!isHome) return;
 
-    const sections = document.querySelectorAll('section[id]');
+    const sectionIds = ['home', 'about', 'services'];
+    const sections = Array.from(document.querySelectorAll('section[id]')).filter((s) =>
+      sectionIds.includes(s.id)
+    ) as HTMLElement[];
+
     if (!sections.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length > 0) {
-          setActiveSection(visible[0].target.id);
+    const handleScrollSpy = () => {
+      const scrollPosition = window.scrollY + NAVBAR_HEIGHT + 40; // Navbar height + scroll offset buffer
+      let currentSection = 'home';
+
+      for (const section of sections) {
+        if (scrollPosition >= section.offsetTop) {
+          currentSection = section.id;
         }
-      },
-      { rootMargin: '-20% 0px -55% 0px', threshold: [0, 0.15, 0.35, 0.5] }
-    );
+      }
 
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, [isHome]);
-
-  /* Reset to Home when at top */
-  useEffect(() => {
-    if (!isHome) return;
-    const onScroll = () => {
-      if (window.scrollY < SCROLL_THRESHOLD) setActiveSection('home');
+      setActiveSection(currentSection);
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+
+    window.addEventListener('scroll', handleScrollSpy, { passive: true });
+    handleScrollSpy(); // Run initially
+
+    return () => window.removeEventListener('scroll', handleScrollSpy);
   }, [isHome]);
 
   const handleNavClick = useCallback(
@@ -109,7 +106,7 @@ export function Navbar() {
         <nav className="hidden md:flex items-center justify-center flex-1" aria-label="Primary navigation">
           <ul className="flex items-center gap-1">
             {navLinks.map((link) => {
-              const isActive = isHome && activeSection === link.sectionId;
+              const isActive = (isHome && activeSection === link.sectionId) || pathname === link.href;
               return (
                 <li key={link.label}>
                   <Link
@@ -168,7 +165,7 @@ export function Navbar() {
           <nav className="py-2" aria-label="Mobile navigation">
             <ul className="flex flex-col">
               {navLinks.map((link) => {
-                const isActive = isHome && activeSection === link.sectionId;
+                const isActive = (isHome && activeSection === link.sectionId) || pathname === link.href;
                 return (
                   <li key={link.label}>
                     <Link

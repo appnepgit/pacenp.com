@@ -59,8 +59,7 @@ export function About() {
                 Our Services
               </Link>
               <Link
-                href="/#team"
-                onClick={(e) => handleScroll(e, 'team')}
+                href="/team"
                 className="inline-flex items-center justify-center rounded border-2 border-primary px-6 py-3 font-heading text-sm font-semibold text-primary transition hover:bg-primary/5"
               >
                 Meet Our Team

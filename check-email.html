@@ -354,11 +354,11 @@
             <i class="fas fa-arrow-left"></i> Back to Website
           </a>
           <!-- Note: Customizing the actual Roundcube header/logo requires cPanel/Roundcube theme customization or Himalayan Host hosting provider support. This page acts as the branded intermediate page. -->
-          <!-- Branded Identity Area: Displaying [PACE logo] bpkhanal@pacenp.com horizontally aligned -->
+          <!-- Branded Identity Area: Displaying [PACE logo] @pacenp.com horizontally aligned -->
           <div class="login-brand-badge-container">
             <div class="login-brand-badge">
               <img src="assets/img/logo-emblem.png" alt="PACE logo" class="login-brand-logo" />
-              <span class="login-brand-email">bpkhanal@pacenp.com</span>
+              <span class="login-brand-email">@pacenp.com</span>
             </div>
             <p class="login-subtitle" style="margin-top: 0.65rem;">Use your pacenp.com email credentials. Hosted on Himalayan Host.</p>
           </div>
@@ -371,7 +371,8 @@
             <label for="email" class="login-form__label">Email Address</label>
             <div class="login-form__input-wrap">
               <i class="fas fa-user login-form__icon"></i>
-              <input type="email" id="email" required value="bpkhanal@pacenp.com" class="login-form__input" placeholder="user@pacenp.com" />
+              <input type="text" id="email" required class="login-form__input" placeholder="Username" style="padding-right: 7.5rem;" />
+              <span class="email-suffix" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); color: #6b7280; font-size: 0.875rem; font-weight: 500; pointer-events: none; user-select: none;">@pacenp.com</span>
             </div>
           </div>
 
@@ -461,7 +462,12 @@
 
       const syncBrandEmail = () => {
         if (brandEmailEl) {
-          brandEmailEl.textContent = emailInputEl.value.trim() || 'user@pacenp.com';
+          let val = emailInputEl.value.trim();
+          if (val.includes('@')) {
+            val = val.split('@')[0];
+            emailInputEl.value = val;
+          }
+          brandEmailEl.textContent = val ? val + '@pacenp.com' : '@pacenp.com';
         }
       };
 
@@ -549,13 +555,15 @@
         e.preventDefault();
         loginErrorMsg.style.display = 'none';
         
-        const email = emailInputEl.value;
+        const username = emailInputEl.value.trim();
         const password = passwordInputEl.value;
 
-        if (!email) {
-          showLoginError('Please enter your email address.');
+        if (!username) {
+          showLoginError('Please enter your email username.');
           return;
         }
+
+        const email = username + '@pacenp.com';
 
         submitLoginBtn.disabled = true;
         submitLoginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting...';

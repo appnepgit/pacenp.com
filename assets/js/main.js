@@ -121,7 +121,7 @@ function initNavbar() {
     });
   });
 
-  /* --- Active link highlighting (Intersection Observer) --- */
+  /* --- Active link highlighting (Scroll Spy) --- */
   if (sections.length && navLinks.length) {
     const setActiveLink = (sectionId) => {
       navLinks.forEach((link) => {
@@ -129,35 +129,25 @@ function initNavbar() {
       });
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        /* Pick the most visible intersecting section for active link */
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    const sectionIds = ['home', 'about', 'services'];
+    const spySections = Array.from(sections).filter((s) => sectionIds.includes(s.id));
 
-        if (visible.length > 0) {
-          setActiveLink(visible[0].target.id);
+    const handleScrollSpy = () => {
+      const navbarHeight = navbar.offsetHeight || 96;
+      const scrollPosition = window.scrollY + navbarHeight + 40; // Navbar height + scroll offset buffer
+      let currentSection = 'home';
+
+      spySections.forEach((section) => {
+        if (scrollPosition >= section.offsetTop) {
+          currentSection = section.id;
         }
-      },
-      {
-        rootMargin: '-20% 0px -55% 0px',
-        threshold: [0, 0.15, 0.35, 0.5],
-      }
-    );
+      });
 
-    sections.forEach((section) => observer.observe(section));
+      setActiveLink(currentSection);
+    };
 
-    /* Highlight Home when at top of page */
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (window.scrollY < SCROLL_THRESHOLD) {
-          setActiveLink('home');
-        }
-      },
-      { passive: true }
-    );
+    window.addEventListener('scroll', handleScrollSpy, { passive: true });
+    handleScrollSpy(); // Run initially
   }
 
   /* Prevent CTA from receiving active underline styles */

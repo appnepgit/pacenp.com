@@ -12,7 +12,7 @@ import {
 
 export default function CheckEmailPage() {
   // Authentication states
-  const [emailInput, setEmailInput] = useState('bpkhanal@pacenp.com');
+  const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [currentPassword, setCurrentPassword] = useState('admin123'); // Default mock password for simulation
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -34,9 +34,11 @@ export default function CheckEmailPage() {
     setLoginError('');
 
     if (!emailInput) {
-      setLoginError('Please enter your email address.');
+      setLoginError('Please enter your email username.');
       return;
     }
+
+    const fullEmail = `${emailInput.trim()}@pacenp.com`;
 
     setIsLoggingIn(true);
     setTimeout(() => {
@@ -49,7 +51,7 @@ export default function CheckEmailPage() {
       const userField = document.createElement('input');
       userField.type = 'hidden';
       userField.name = 'user';
-      userField.value = emailInput;
+      userField.value = fullEmail;
       form.appendChild(userField);
 
       if (passwordInput) {
@@ -122,7 +124,7 @@ export default function CheckEmailPage() {
             <HiArrowLeft className="h-3.5 w-3.5" /> Back to Website
           </Link>
           {/* Note: Customizing the actual Roundcube header/logo requires cPanel/Roundcube theme customization or Himalayan Host hosting provider support. This page acts as the branded intermediate page. */}
-          {/* Branded Identity Area: Displaying [PACE logo] bpkhanal@pacenp.com horizontally aligned */}
+          {/* Branded Identity Area: Displaying [PACE logo] @pacenp.com horizontally aligned */}
           <div className="flex flex-col items-center mb-6">
             <div className="flex items-center justify-center gap-2 border border-gray-100 bg-gray-50/50 rounded-full px-4.5 py-2 shadow-sm max-w-full">
               <img
@@ -132,7 +134,7 @@ export default function CheckEmailPage() {
                 loading="eager"
               />
               <span className="font-heading text-sm font-bold text-primary truncate">
-                {emailInput || 'user@pacenp.com'}
+                {emailInput ? `${emailInput}@pacenp.com` : '@pacenp.com'}
               </span>
             </div>
             <p className="mt-2.5 text-[11px] text-muted text-center leading-relaxed">
@@ -141,24 +143,35 @@ export default function CheckEmailPage() {
           </div>
         </div>
 
-        <form className="mt-6 space-y-4" onSubmit={handleLoginSubmit}>
+        <form className="mt-6 space-y-4" onSubmit={handleLoginSubmit} autoComplete="off">
           <div>
             <label htmlFor="email" className="block text-xs font-semibold text-gray-600 mb-1">
               Email Address
             </label>
-            <div className="relative">
+            <div className="relative flex items-center">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                 <HiUser className="h-5 w-5" />
               </span>
               <input
                 id="email"
-                type="email"
+                name="email_username"
+                type="text"
                 required
                 value={emailInput}
-                onChange={(e) => setEmailInput(e.target.value)}
-                className="w-full rounded border border-gray-300 py-2.5 pl-10 pr-3 text-sm focus:border-secondary focus:outline-none"
-                placeholder="user@pacenp.com"
+                onChange={(e) => {
+                  let val = e.target.value;
+                  if (val.includes('@')) {
+                    val = val.split('@')[0];
+                  }
+                  setEmailInput(val);
+                }}
+                autoComplete="off"
+                className="w-full rounded border border-gray-300 py-2.5 pl-10 pr-[7.5rem] text-sm focus:border-secondary focus:outline-none"
+                placeholder="Username"
               />
+              <span className="absolute right-3 text-sm font-semibold text-gray-500 pointer-events-none select-none">
+                @pacenp.com
+              </span>
             </div>
           </div>
 
@@ -191,9 +204,11 @@ export default function CheckEmailPage() {
               </span>
               <input
                 id="password"
+                name="login_password"
                 type="password"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
+                autoComplete="new-password"
                 className="w-full rounded border border-gray-300 py-2.5 pl-10 pr-3 text-sm focus:border-secondary focus:outline-none"
                 placeholder="••••••••"
                 required
