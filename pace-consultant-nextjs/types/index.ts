@@ -82,3 +82,11 @@ export interface SiteConfig {
     whatsapp: string;
   };
 }
+
+export interface Client {
+  sn: number;
+  name: string;
+  initials: string;
+  logo: string;
+  type: 'international' | 'national';
+}
