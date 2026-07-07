@@ -945,15 +945,49 @@
       </div>
     </footer>
 
-    <!-- Email floating button -->
-    <a
-      href="mailto:paceconsultant@gmail.com"
-      class="email-float"
-      aria-label="Send an email to PACE Consultant"
+
+
+    <!-- AI Chat Window -->
+    <div id="ai-chat-window" class="ai-chat-window" aria-hidden="true" hidden>
+      <div class="ai-chat-window__header">
+        <div class="ai-chat-window__header-info">
+          <h3 class="ai-chat-window__title">PACE AI Assistant</h3>
+          <p class="ai-chat-window__subtitle">Ask us about engineering consultancy, services, projects, or contact details.</p>
+        </div>
+        <button type="button" id="ai-chat-close" class="ai-chat-window__close" aria-label="Close chat">
+          <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div id="ai-chat-messages" class="ai-chat-window__messages" role="log" aria-live="polite">
+        <!-- Messages will be dynamically appended here -->
+      </div>
+      <form id="ai-chat-form" class="ai-chat-window__footer" novalidate>
+        <input
+          type="text"
+          id="ai-chat-input"
+          class="ai-chat-window__input"
+          placeholder="Type your message..."
+          autocomplete="off"
+          required
+        />
+        <button type="submit" id="ai-chat-send" class="ai-chat-window__send" aria-label="Send message">
+          <i class="fas fa-paper-plane" aria-hidden="true"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- AI Chat floating button -->
+    <button
+      type="button"
+      id="ai-chat-toggle"
+      class="ai-chat-float"
+      aria-label="Open PACE AI Assistant"
+      aria-expanded="false"
+      aria-controls="ai-chat-window"
     >
-      <i class="fas fa-envelope" aria-hidden="true"></i>
-      <span class="email-float__tooltip" role="tooltip">Email Us</span>
-    </a>
+      <i class="fas fa-comment-dots" aria-hidden="true"></i>
+      <span class="ai-chat-float__tooltip" role="tooltip">AI Assistant</span>
+    </button>
 
     <!-- WhatsApp floating button -->
     <a
@@ -974,5 +1008,6 @@
 
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
     <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/chat.js" defer></script>
   </body>
 </html>

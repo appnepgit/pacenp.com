@@ -73,7 +73,7 @@ export function Services() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="scroll-mt-24 bg-gradient-to-b from-white to-gray-50 py-24 pt-32"
+      className="scroll-mt-24 bg-gradient-to-b from-white to-gray-50 pb-24 pt-16"
     >
       <div className="container-pace">
         <SectionHeader

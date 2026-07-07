@@ -13,7 +13,7 @@ export function About() {
   };
 
   return (
-    <section id="about" aria-labelledby="about-heading" className="scroll-mt-24 bg-white py-24">
+    <section id="about" aria-labelledby="about-heading" className="scroll-mt-24 bg-white pt-24 pb-12">
       <div className="container-pace">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div>

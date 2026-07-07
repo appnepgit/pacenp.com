@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import { Navbar } from '@/components/layout/Navbar';
-import { FloatingEmailButton } from '@/components/layout/FloatingEmailButton';
+import { AIChatWidget } from '@/components/layout/AIChatWidget';
 import { siteConfig } from '@/lib/data/site';
 import './globals.css';
 
@@ -107,7 +107,7 @@ export default function RootLayout({
 
         <main id="main-content">{children}</main>
 
-        <FloatingEmailButton />
+        <AIChatWidget />
       </body>
     </html>
   );
