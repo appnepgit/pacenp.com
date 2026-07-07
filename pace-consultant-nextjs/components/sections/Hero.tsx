@@ -41,7 +41,7 @@ export function Hero() {
       aria-label="Hero"
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden pt-36 pb-28 text-white bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: `linear-gradient(135deg, rgba(13, 33, 55, 0.8) 0%, rgba(26, 60, 94, 0.7) 100%), url('/images/hero-bg.png')`,
+        backgroundImage: `linear-gradient(135deg, rgba(13, 33, 55, 0.8) 0%, rgba(26, 60, 94, 0.7) 100%), url('/pacenp.com/images/hero-bg.png')`,
       }}
     >
       {/* Decorative particles (Option B pattern) */}
